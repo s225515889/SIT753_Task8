@@ -44,7 +44,7 @@ pipeline {
         
         stage('Integration Tests on Staging') {
             steps {
-                echo "Running integration tests on the staging environment using Selenium to simulate production-like conditions."
+                echo "Running integration tests on staging environment using Selenium to simulate production-like conditions."
                 // Maven command with a flag to trigger Selenium-based tests
                 // sh 'mvn verify -Dselenium'
             }
