@@ -57,5 +57,11 @@ pipeline {
                 // sh 'scp target/app.jar ec2-user@production-server:/app'
             }
         }
+        
+        stage('Completed') {
+            steps {
+                echo "Completed."
+            }
+        }
     }
 }
