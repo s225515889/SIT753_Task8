@@ -6,6 +6,7 @@ pipeline {
             steps {
                 echo "Building the project using Maven: cleaning old builds and packaging the code."
                 // Maven command: cleans previous builds and packages the project
+                // sh 'mvn clean package'
             }
         }
         
@@ -13,6 +14,7 @@ pipeline {
             steps {
                 echo "Executing unit and integration tests using Maven, JUnit, and TestNG."
                 // Maven command: runs tests defined in the Maven lifecycle
+                // sh 'mvn test'
             }
         }
         
@@ -20,6 +22,7 @@ pipeline {
             steps {
                 echo "Analyzing code quality with SonarQube to ensure adherence to coding standards."
                 // Maven SonarQube plugin command: performs static analysis of the project code
+                // sh 'mvn sonar:sonar'
             }
         }
         
@@ -27,6 +30,7 @@ pipeline {
             steps {
                 echo "Performing a security scan using OWASP Dependency-Check to identify vulnerabilities."
                 // Runs the OWASP Dependency-Check script against the project directory
+                // sh 'dependency-check.sh -s .'
             }
         }
         
@@ -34,6 +38,7 @@ pipeline {
             steps {
                 echo "Deploying the application to the staging server (AWS EC2 instance) for further testing."
                 // Uses secure copy to deploy the built artifact to the staging server
+                // sh 'scp target/app.jar ec2-user@staging-server:/app'
             }
         }
         
@@ -41,6 +46,7 @@ pipeline {
             steps {
                 echo "Running integration tests on the staging environment using Selenium to simulate production-like conditions."
                 // Maven command with a flag to trigger Selenium-based tests
+                // sh 'mvn verify -Dselenium'
             }
         }
         
@@ -48,6 +54,7 @@ pipeline {
             steps {
                 echo "Deploying the thoroughly tested application to the production server (AWS EC2 instance)."
                 // Uses secure copy to deploy the built artifact to the production server
+                // sh 'scp target/app.jar ec2-user@production-server:/app'
             }
         }
     }
