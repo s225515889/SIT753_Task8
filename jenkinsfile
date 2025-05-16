@@ -10,6 +10,13 @@ pipeline {
                 bat 'npm test'
             }
         }
+
+        stage('Debug File Paths') {
+            steps {
+                echo "Listing all files"
+                bat 'dir /s /b'
+            }
+        }
         
         stage('Unit and Integration Tests') {
             steps {
