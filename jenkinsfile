@@ -1,12 +1,16 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'M3'
+    }
+
     stages {
         stage('Build') {
             steps {
                 echo "Building the project using Maven: cleaning old builds and packaging the code."
                 // Maven command: cleans previous builds and packages the project
-                sh 'mvn clean package'
+                bat 'mvn clean package'
             }
         }
         
@@ -14,7 +18,7 @@ pipeline {
             steps {
                 echo "Executing unit and integration tests using Maven, JUnit, and TestNG."
                 // Maven command: runs tests defined in the Maven lifecycle
-                sh 'mvn test'
+                bat 'mvn test'
             }
             post {
                 success {
@@ -42,7 +46,7 @@ pipeline {
             steps {
                 echo "Analyzing code quality with SonarQube to ensure adherence to coding standards."
                 // Maven SonarQube plugin command: performs static analysis of the project code
-                sh 'mvn sonar:sonar'
+                bat 'mvn sonar:sonar'
             }
         }
         
@@ -78,7 +82,7 @@ pipeline {
             steps {
                 echo "Deploying the application to the staging server (AWS EC2 instance) for further testing."
                 // Uses secure copy to deploy the built artifact to the staging server
-                sh 'scp target/app.jar ec2-user@staging-server:/app'
+                bat 'scp target/app.jar ec2-user@staging-server:/app'
             }
         }
         
@@ -86,7 +90,7 @@ pipeline {
             steps {
                 echo "Running integration tests on staging environment using Selenium to simulate production-like conditions."
                 // Maven command with a flag to trigger Selenium-based tests
-                sh 'mvn verify -Dselenium'
+                bat 'mvn verify -Dselenium'
             }
         }
         
@@ -94,14 +98,14 @@ pipeline {
             steps {
                 echo "Deploying the thoroughly tested application to the production server (AWS EC2 instance)."
                 // Uses secure copy to deploy the built artifact to the production server
-                sh 'scp target/app.jar ec2-user@production-server:/app'
+                bat 'scp target/app.jar ec2-user@production-server:/app'
             }
         }
 
         stage('Debug File Paths') {
             steps {
                 echo "Listing all files in workspace for debugging attachment paths"
-                sh 'find . -type f'
+                bat 'find . -type f'
             }
         }
 
