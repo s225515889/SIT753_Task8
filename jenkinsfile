@@ -5,49 +5,49 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Building the project using npm: cleaning old builds and preparing the assets."
-                // sh 'npm run build'
+                echo "sh 'npm run build'"
             }
         }
         
         stage('Unit and Integration Tests') {
             steps {
                 echo "Executing unit and integration tests using npm."
-                // sh 'npm test || true'
+                echo "sh 'npm test || true'"
             }
         }
         
         stage('Code Analysis') {
             steps {
                 echo "Analyzing code quality with ESLint to ensure adherence to coding standards."
-                // sh 'npm run lint || true'
+                echo "sh 'npm run lint || true'"
             }
         }
         
         stage('Security Scan') {
             steps {
                 echo "Performing a security audit using npm audit to identify vulnerabilities."
-                // sh 'npm audit || true'
+                echo "sh 'npm audit || true'"
             }
         }
         
         stage('Deploy to Staging') {
             steps {
                 echo "Deploying the application to the staging server (AWS EC2 instance) for further testing."
-                // sh 'scp -r dist/* ec2-user@staging-server:/app'
+                echo "sh 'scp -r dist/* ec2-user@staging-server:/app'"
             }
         }
         
         stage('Integration Tests on Staging') {
             steps {
                 echo "Running integration tests on the staging environment using Selenium to simulate production-like conditions."
-                // sh 'npm run test:integration || true'
+                echo "sh 'npm run test:integration || true'"
             }
         }
         
         stage('Deploy to Production') {
             steps {
                 echo "Deploying the thoroughly tested application to the production server (AWS EC2 instance)."
-                // sh 'scp -r dist/* ec2-user@production-server:/app'
+                echo "sh 'scp -r dist/* ec2-user@production-server:/app'"
             }
         }
     }
