@@ -8,6 +8,13 @@ pipeline {
                 // Maven command: cleans previous builds and packages the project
                 // sh 'mvn clean package'
             }
+            post {
+                always {
+                    mail to: "mmhayat786@gmail.com"
+                    subject: "Jenkins Build Status Email"
+                    body: "Build log attached"
+                }
+            }
         }
         
         stage('Unit and Integration Tests') {
