@@ -107,12 +107,5 @@ pipeline {
             }
         }
 
-        stage('Debug File Paths') {
-            steps {
-                echo "Listing all files in workspace for debugging"
-                bat 'dir /s /b'
-            }
-        }
-
     }
 }
