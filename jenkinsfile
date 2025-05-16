@@ -13,6 +13,12 @@ pipeline {
             }
         }
 
+        stage('Find pom.xml') {
+            steps {
+                bat 'dir /s /b pom.xml'
+            }
+        }
+
         stage('Build') {
             steps {
                 echo "Building the project using Maven: cleaning old builds and packaging the code."
