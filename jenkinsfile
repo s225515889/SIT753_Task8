@@ -10,9 +10,9 @@ pipeline {
             }
             post {
                 always {
-                    mail to: "mmhayat786@gmail.com"
-                    subject: "Jenkins Build Status Email"
-                    body: "Build log attached"
+                    mail to: "mmhayat786@gmail.com",
+                    subject: "Jenkins Build Status Email",
+                    body: "Build log attached."
                 }
             }
         }
