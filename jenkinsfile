@@ -7,14 +7,13 @@ pipeline {
             steps {
                 echo "Building the project using Maven: cleaning old builds and packaging the code."
                 // Maven command: cleans previous builds and packages the project
-                //bat 'npm test'
+                bat 'npm install'
             }
         }
 
-        stage('Debug File Paths') {
+        stage('Test') {
             steps {
-                echo "Listing all files"
-                bat 'dir /s /b'
+                bat 'npm test'
             }
         }
         
