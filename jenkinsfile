@@ -6,6 +6,13 @@ pipeline {
     }
 
     stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
         stage('Build') {
             steps {
                 echo "Building the project using Maven: cleaning old builds and packaging the code."
