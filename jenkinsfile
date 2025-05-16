@@ -6,7 +6,7 @@ pipeline {
             steps {
                 echo "Building the project using Maven: cleaning old builds and packaging the code."
                 // Maven command: cleans previous builds and packages the project
-                // sh 'mvn clean package'
+                sh 'mvn clean package'
             }
         }
         
@@ -14,26 +14,25 @@ pipeline {
             steps {
                 echo "Executing unit and integration tests using Maven, JUnit, and TestNG."
                 // Maven command: runs tests defined in the Maven lifecycle
-                // sh 'mvn test'
+                sh 'mvn test'
             }
             post {
                 success {
                     emailext (
-                        to: 'mmhayat786@gmail.com',
-                        subject: "Unit and Integration Tests: SUCCESS - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                        body: """<p>Stage <b>Unit and Integration Tests</b> completed successfully.</p>
-                                 <p>Build URL: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>""",
-                        attachmentsPattern: '**/test-results/**/*.xml, **/target/surefire-reports/*.txt'
+                        to: "mmhayat786@gmail.com",
+                        subject: "Unit and Integration Tests: SUCCESS",
+                        body: "Stage: Unit and Integration Tests - completed successfully.",
+                        attachmentsPattern: '**/target/surefire-reports/*.*',
+                        mimeType: 'text/plain'
                     )
                 }
                 failure {
                     emailext (
-                        to: 'mmhayat786@gmail.com',
-                        subject: "Unit and Integration Tests: FAILURE - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                        body: """<p>Stage <b>Unit and Integration Tests</b> failed.</p>
-                                 <p>Please check the logs for details.</p>
-                                 <p>Build URL: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>""",
-                        attachmentsPattern: '**/test-results/**/*.xml, **/target/surefire-reports/*.txt'
+                        to: "mmhayat786@gmail.com",
+                        subject: "Unit and Integration Tests: FAILURE",
+                        body: "Stage: Unit and Integration Tests - Failed. Please check the logs for details.",
+                        attachmentsPattern: '**/target/surefire-reports/*.*',
+                        mimeType: 'text/plain'
                     )
                 }
             }
@@ -43,7 +42,7 @@ pipeline {
             steps {
                 echo "Analyzing code quality with SonarQube to ensure adherence to coding standards."
                 // Maven SonarQube plugin command: performs static analysis of the project code
-                // sh 'mvn sonar:sonar'
+                sh 'mvn sonar:sonar'
             }
         }
         
@@ -51,26 +50,25 @@ pipeline {
             steps {
                 echo "Performing a security scan using OWASP Dependency-Check to identify vulnerabilities."
                 // Runs the OWASP Dependency-Check script against the project directory
-                // sh 'dependency-check.sh -s .'
+                sh 'dependency-check.sh -s .'
             }
             post {
                 success {
                     emailext (
-                        to: 'mmhayat786@gmail.com',
-                        subject: "Security Scan: SUCCESS - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                        body: """<p>Stage <b>Security Scan</b> completed successfully.</p>
-                                 <p>Build URL: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>""",
-                        attachmentsPattern: '**/dependency-check-report.*'
+                        to: "mmhayat786@gmail.com",
+                        subject: "Security Scan: SUCCESS",
+                        body: "Stage: Security Scan - Completed successfully.",
+                        attachmentsPattern: '**/target/dependency-check-report.html',
+                        mimeType: 'text/html'
                     )
                 }
                 failure {
                     emailext (
-                        to: 'mmhayat786@gmail.com',
-                        subject: "Security Scan: FAILURE - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                        body: """<p>Stage <b>Security Scan</b> failed.</p>
-                                 <p>Please check the logs for details.</p>
-                                 <p>Build URL: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>""",
-                        attachmentsPattern: '**/dependency-check-report.*'
+                        to: "mmhayat786@gmail.com",
+                        subject: "Security Scan: FAILURE",
+                        body: "Stage: Security Scan - Failed. Please check the logs for details.",
+                        attachmentsPattern: '**/target/dependency-check-report.html',
+                        mimeType: 'text/html'
                     )
                 }
             }
@@ -80,7 +78,7 @@ pipeline {
             steps {
                 echo "Deploying the application to the staging server (AWS EC2 instance) for further testing."
                 // Uses secure copy to deploy the built artifact to the staging server
-                // sh 'scp target/app.jar ec2-user@staging-server:/app'
+                sh 'scp target/app.jar ec2-user@staging-server:/app'
             }
         }
         
@@ -88,7 +86,7 @@ pipeline {
             steps {
                 echo "Running integration tests on staging environment using Selenium to simulate production-like conditions."
                 // Maven command with a flag to trigger Selenium-based tests
-                // sh 'mvn verify -Dselenium'
+                sh 'mvn verify -Dselenium'
             }
         }
         
@@ -96,8 +94,16 @@ pipeline {
             steps {
                 echo "Deploying the thoroughly tested application to the production server (AWS EC2 instance)."
                 // Uses secure copy to deploy the built artifact to the production server
-                // sh 'scp target/app.jar ec2-user@production-server:/app'
+                sh 'scp target/app.jar ec2-user@production-server:/app'
             }
         }
+
+        stage('Debug File Paths') {
+            steps {
+                echo "Listing all files in workspace for debugging attachment paths"
+                sh 'find . -type f'
+            }
+        }
+
     }
 }
