@@ -21,7 +21,7 @@ pipeline {
             steps {
                 echo "Executing unit and integration tests using Maven, JUnit, and TestNG."
                 // Maven command: runs tests defined in the Maven lifecycle
-                bat 'mvn test'
+                bat 'npm test'
             }
             post {
                 success {
