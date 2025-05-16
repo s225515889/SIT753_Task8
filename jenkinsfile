@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo "Building the project using npm: cleaning old builds and preparing assets."
+                echo "Building the project using npm: cleaning old builds and preparing the assets."
                 echo "sh 'npm run build'"
             }
         }
